@@ -1,38 +1,46 @@
 console.log('Welcome to a game of Rock, Paper, Scissors!')
 
+let playerScore = 0
+let computerScore = 0
+
 const playChoice = ['rock','paper', 'scissors']
 
 function getComputerChoice() {
     return playChoice[Math.floor(Math.random() * playChoice.length)]
 }
 
-const playerSelection = prompt('Do you want to play rock, paper or scissors?')
-const computerSelection = getComputerChoice()
-
-console.log('Human plays: ' + playerSelection)
-
-console.log('Computer plays: ' + computerSelection)
 
 function playRound(playerSelection,computerSelection) {
     playerSelection = playerSelection.toLowerCase()
 
-    if (playerSelection === computerSelection) return 0
+    if (playerSelection === computerSelection){
+        playerScore++
+        computerScore++
+        return "It's a tie! Both chose " + playerSelection  
+    }
     else if (playerSelection == 'rock' && computerSelection == 'scissors' ||
-            playerSelection == 'paper' && computerSelection == 'rock' ||
-            playerSelection == 'scissors' && computerSelection == 'paper') return 1
-    else return 2
+        playerSelection == 'paper' && computerSelection == 'rock' ||
+        playerSelection == 'scissors' && computerSelection == 'paper'){
+        playerScore++
+        return 'Humankind wins! ' + playerSelection + ' beats ' + computerSelection
+        }
+    else{
+        computerScore++
+        return 'Machine wins! ' + computerSelection + ' beats ' + playerSelection
+    }
 }
 
-switch (playRound(playerSelection,computerSelection)) {
-    case 0:
-        console.log("It's a draw!")
-        break;
-    case 1:
-        console.log("Human supremacy!! " + playerSelection + " beats " + computerSelection)
-        break;
-    case 2:
-        console.log("Computer supremacy!! " + computerSelection + " beats " + playerSelection)
-        break;
-    default:
-        console.log("I still don't know...")
+function game(){
+    for (i=1; i < 6; i++){
+        console.log('Round ' + i + ':')
+        const playerSelection = prompt('Rock, paper or scissors?')
+        const computerSelection = getComputerChoice()
+        console.log(playRound(playerSelection,computerSelection))
+        console.log('The score is: Humans - ' + playerScore + ' | Machines - ' + computerScore)
+    }
+    if (playerScore > computerScore) return "\nMankind won the game! At least for now..."
+    else if (computerScore > playerScore) return "\nThe machines have won! Say hello to your new masters..."
+    else return "How the hell did this happened?! Refresh the page for a new game."
 }
+
+console.log(game())
